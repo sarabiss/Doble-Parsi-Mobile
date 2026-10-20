@@ -86,7 +86,6 @@ jobs:
           ls -la
           cat SHA256SUMS.txt
 
-      # Proof for the "why were all three the same size" question: no .so at all.
       - name: Report size and native libraries
         run: |
           apk="out/DobleParsi-${APP_VERSION}-universal.apk"
@@ -120,8 +119,8 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
-      # One clean, versioned release: Doble Parsi V1.0.0.
-      - name: Publish release Doble Parsi V1.0.0
+      # Update the same stable release on each successful push to main/master.
+      - name: Publish or update GitHub Release
         if: github.event_name != 'pull_request'
         uses: softprops/action-gh-release@v2
         with:
@@ -131,5 +130,6 @@ jobs:
           files: |
             out/DobleParsi-${{ env.APP_VERSION }}-universal.apk
             out/SHA256SUMS.txt
+          overwrite_files: true
           prerelease: false
           make_latest: true
