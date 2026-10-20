@@ -119,8 +119,31 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
+      # Every PR build gets its own clearly labeled prerelease.
+      - name: Publish Pull Request build
+        if: github.event_name == 'pull_request'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: pr-${{ github.event.pull_request.number }}-run-${{ github.run_number }}
+          name: "🧪 Pull Request #${{ github.event.pull_request.number }} — Doble Parsi V${{ env.APP_VERSION }}"
+          body: |
+            ## 🧪 Pull Request build — not a stable release
+
+            This APK was built automatically from Pull Request #${{ github.event.pull_request.number }}.
+
+            - **Type:** Test / Pull Request build
+            - **PR:** https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}
+            - **Commit:** ${{ github.event.pull_request.head.sha }}
+
+            This is a prerelease for testing. It is not the stable version.
+          files: |
+            out/DobleParsi-${{ env.APP_VERSION }}-universal.apk
+            out/SHA256SUMS.txt
+          prerelease: true
+          make_latest: false
+
       # Update the same stable release on each successful push to main/master.
-      - name: Publish or update GitHub Release
+      - name: Publish or update stable GitHub Release
         if: github.event_name != 'pull_request'
         uses: softprops/action-gh-release@v2
         with:
