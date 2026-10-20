@@ -1,9 +1,8 @@
 /*
  * Doble Parsi V1.0.0 - live AI dubbing for Android
- * Engineered by QW-AI-Code
  *
  * Copyright (c) 2026 QW-AI-Code - https://github.com/QW-AI-Code
- * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2026 QW-AI-Code (github.com/QW-AI-Code)
  */
 package com.qwaicode.dobleparsi.audio
 
